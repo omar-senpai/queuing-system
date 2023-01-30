@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
+import { QueueModule } from './queue/queue.module';
 
 @Module({
   imports: [
@@ -15,16 +16,17 @@ import { PassportModule } from '@nestjs/passport';
     }),
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: "host.docker.internal",
+      host: "localhost",
       port: 5432,
       username: "postgres",
-      password: "pg123",
-      database: "queue-system",
+      password: "root",
+      database: "queuing-system",
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
+    QueueModule,
 
   ],
   controllers: [AppController],
