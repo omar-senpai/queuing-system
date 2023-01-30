@@ -21,4 +21,9 @@ export class QueueController {
     getBySection(@Param('section') section: Section) {
         return this.queueService.getBySection(section);
     }
+
+    @Get()
+    getPatients() {
+        return this.queueService.getPatients();
+    }
 }

@@ -1,9 +1,9 @@
-import { IsNotEmpty } from "class-validator";
+import { IsEnum, IsIn, isIn, IsNotEmpty } from "class-validator";
 import { Section } from "src/enums/sections.enum";
 
 export class AddPatientDto {
     @IsNotEmpty()
-    patientId: number;
+    patientId: string;
 
     @IsNotEmpty()
     name: string;
@@ -11,7 +11,6 @@ export class AddPatientDto {
     @IsNotEmpty()
     section: Section;
 
-    @IsNotEmpty()
     waitingNumber: number;
 
     arrivalTime: Date;

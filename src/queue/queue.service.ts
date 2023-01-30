@@ -12,8 +12,10 @@ export class QueueService {
                 status: HttpStatus.CONFLICT,
                 error: 'sorry this patient already exist',
             }, HttpStatus.CONFLICT);
+        const patientWittingNumber = await (await this.getBySection(addPatientDto.section)).length;
+        addPatientDto.waitingNumber = patientWittingNumber + 1;
         addPatientDto.section = Object.values(Section)[addPatientDto.section];
-        const newPatient = Queue.create(addPatientDto);
+        const newPatient = await Queue.create(addPatientDto);
         await newPatient.save();
     }
     async isPatientExist(addPatientDto: AddPatientDto) {
@@ -46,6 +48,11 @@ export class QueueService {
                 }
             }
         );
+        return patients;
+    }
+
+    async getPatients() {
+        const patients = await Queue.find({ where: { isActive: true } });
         return patients;
     }
 

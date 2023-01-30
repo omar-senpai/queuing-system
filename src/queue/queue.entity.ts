@@ -1,19 +1,22 @@
+import { type } from 'os';
 import { Section } from 'src/enums/sections.enum';
 import {
     BaseEntity,
     Column,
     CreateDateColumn,
     Entity,
+    Generated,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 @Entity()
 export class Queue extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @Column({ type: 'text', nullable: true })
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-    @Column({ type: 'int' })
-    patientId: number;
+    @Column({ type: 'text', nullable: true })
+    patientId: string;
 
     @Column({ type: 'text', nullable: true })
     name: string;
@@ -21,7 +24,7 @@ export class Queue extends BaseEntity {
     @Column({ type: 'enum', enum: Section, default: Section[0] })
     section: Section;
 
-    @Column({ unique: true })
+    @Column({ type: 'text', nullable: true })
     waitingNumber: number;
 
     @Column({ default: new Date() })
