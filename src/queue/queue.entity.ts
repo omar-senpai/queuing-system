@@ -21,7 +21,7 @@ export class Queue extends BaseEntity {
     @Column({ type: 'text', nullable: true })
     name: string;
 
-    @Column({ type: 'enum', enum: Section, default: Section[0] })
+    @Column({ type: 'enum', enum: Section, default: Section.General })
     section: Section;
 
     @Column({ type: 'text', nullable: true })

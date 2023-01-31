@@ -21,7 +21,7 @@ export class Users extends BaseEntity {
     @Column({ type: 'text', nullable: true })
     lastName: string;
 
-    @Column({ type: 'enum', enum: Role, default: Role.Student })
+    @Column({ type: 'enum', enum: Role, default: Role.Patient })
     roles: Role;
 
     @Column({ unique: true })
