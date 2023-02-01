@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Role } from 'src/auth/role.enum';
+import { Section } from 'src/enums/sections.enum';
 
 @Entity()
 export class Users extends BaseEntity {
@@ -49,4 +50,7 @@ export class Users extends BaseEntity {
     async validatePassword(password: string): Promise<boolean> {
         return bcrypt.compare(password, this.password);
     }
+
+    @Column({ default: Section.General })
+    specialty: Section;
 }

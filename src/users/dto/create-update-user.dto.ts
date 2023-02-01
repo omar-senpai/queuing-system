@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsPhoneNumber } from "class-validator";
+import { Section } from "src/enums/sections.enum";
 
 export class CreateUserDto {
 
@@ -16,4 +17,6 @@ export class CreateUserDto {
 
     @IsPhoneNumber("SA")
     phoneNumber: string;
+
+    specialty: Section;
 }

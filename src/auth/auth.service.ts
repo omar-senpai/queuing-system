@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Section } from 'src/enums/sections.enum';
 
 import { Users } from 'src/users/users.entity';
 import { UsersService } from 'src/users/users.service';
@@ -21,6 +22,7 @@ export class AuthService {
             lastName: user.lastName,
             email: user.email,
             roles: user.roles,
+            specialty: Object.values(Section).indexOf(user.specialty),
         };
 
         return {

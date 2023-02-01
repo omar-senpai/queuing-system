@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Users } from './users.entity';
 import { CreateUserDto } from './dto/create-update-user.dto';
+import { Section } from 'src/enums/sections.enum';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +14,7 @@ export class UsersService {
             }, HttpStatus.CONFLICT);
 
         createUserDto.email = createUserDto.email.toLocaleLowerCase();
+        createUserDto.specialty = Object.values(Section)[createUserDto.specialty];
         const user = Users.create(createUserDto);
         await user.save();
 
