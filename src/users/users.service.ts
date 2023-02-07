@@ -89,6 +89,13 @@ export class UsersService {
     }
 
     async findByEmail(email: string) {
+        const cachedData = await this.cacheService.get<Users>(email.toString());
+        console.log(cachedData);
+        if (cachedData) {
+            console.log(`Getting data from cache!`);
+            console.log(cachedData);
+            return cachedData;
+        }
         const user = await Users.findOne({
             where: {
                 email: email.toLocaleLowerCase(),
@@ -99,6 +106,7 @@ export class UsersService {
                 status: HttpStatus.NOT_FOUND,
                 error: 'user not found',
             }, HttpStatus.NOT_FOUND);
+        await this.cacheService.set(email.toString(), user, { ttl: 30 });
         return user
     }
 
