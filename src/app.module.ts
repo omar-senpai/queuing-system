@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
+import * as redisStore from 'cache-manager-redis-store';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -10,6 +11,14 @@ import { QueueModule } from './queue/queue.module';
 
 @Module({
   imports: [
+    CacheModule.register({
+      store: redisStore,
+      // Store-specific configuration:
+      host: 'r-l4vv435ts9cnfirj3n.redis.me-central-1.rds.aliyuncs.com',
+      port: 6379,
+      username: 'r-l4vv435ts9cnfirj3n',
+      password: 'Q2xvdWQgU2xlZXBlcnM='
+    }),
     PassportModule,
     ConfigModule.forRoot({
       isGlobal: true,

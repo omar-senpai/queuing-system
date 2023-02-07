@@ -1,10 +1,14 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Users } from './users.entity';
 import { CreateUserDto } from './dto/create-update-user.dto';
 import { Section } from 'src/enums/sections.enum';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class UsersService {
+    constructor(@Inject(CACHE_MANAGER) private cacheService: Cache) { }
+
+
     async create(createUserDto: CreateUserDto) {
         // check if user exist
         if (await this.isUserExist(createUserDto))
@@ -60,6 +64,13 @@ export class UsersService {
 
 
     async getById(id: number): Promise<Users> {
+        const cachedData = await this.cacheService.get<Users>(id.toString());
+        console.log(cachedData);
+        if (cachedData) {
+            console.log(`Getting data from cache!`);
+            console.log(cachedData);
+            return cachedData;
+        }
         const user = await Users.findOne(id);;
         if (!user)
             throw new HttpException({
@@ -67,6 +78,7 @@ export class UsersService {
                 error: 'user not found',
             }, HttpStatus.NOT_FOUND);
         delete user.password;
+        await this.cacheService.set(id.toString(), user, { ttl: 30 });
         return user;
     }
 
